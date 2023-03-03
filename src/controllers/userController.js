@@ -41,7 +41,6 @@ export const signIn = async (req, res) => {
         password,
         userExist.rows[0].password
       );
-      return res.sendStatus(201)
       if(comparation){
         const loggedIn = await db.query(
             SESSIONS + " WHERE userId = $1",
