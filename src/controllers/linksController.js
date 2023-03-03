@@ -45,22 +45,23 @@ export const getUrlById = async (req, res) => {
   try {
     const query = await db.query(
       `
-            SELECT * FROM urls WHERE id = $1;
-        `,
+       SELECT * FROM links WHERE id = $1;
+      `,
       [id]
     );
 
-    if (!rows[0].id) {
+    if (!query.rows[0].id) {
       return res.sendStatus(404);
     }
     const sendObject = {
       id: query.rows[0].id,
       shortUrl: query.rows[0].shortUrl,
-      url: rows[0].url,
+      url: query.rows[0].url,
     };
 
-    return res.status(200).send({});
+    return res.status(200).send(sendObject);
   } catch (error) {
+    console.log(error)
     return res.status(500).send(error.message);
   }
 };
