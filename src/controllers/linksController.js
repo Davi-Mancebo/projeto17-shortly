@@ -57,5 +57,10 @@ export const getUrlById = async (req, res) => {
   }
 };
 export const addVisit = async (req, res) => {
-  
+  const {shortUrl} = req.params
+  try{
+    
+  }catch(error){
+    return res.status(500).send(error)
+  }
 }
