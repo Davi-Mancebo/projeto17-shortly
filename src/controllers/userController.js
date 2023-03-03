@@ -84,7 +84,7 @@ export const getMe = async (req, res) => {
       links."visits")
                 FROM links
                 JOIN USERS ON links."userId" = USERS.ID
-                WHERE "userId" = $1) AS "shortenedlinks"
+                WHERE "userId" = $1) AS "shortenedUrls"
     FROM links
     JOIN USERS ON links."userId" = USERS.ID
     WHERE "userId" = $2
