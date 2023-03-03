@@ -23,7 +23,7 @@ export const shortUrl = async (req, res) => {
     };
     return res.status(201).send(sendObject);
   } catch (error) {
-    return res.status(500).send(error);
+    return res.status(500).send(error.message);
   }
 };
 export const getUrls = async (req, res) => {
@@ -53,7 +53,7 @@ export const getUrlById = async (req, res) => {
 
     return res.status(200).send({});
   } catch (error) {
-    return res.status(500).send(error);
+    return res.status(500).send(error.message);
   }
 };
 export const addVisit = async (req, res) => {
@@ -66,6 +66,6 @@ export const addVisit = async (req, res) => {
 
     return res.redirect(rows[0].url)
   }catch(error){
-    return res.status(500).send(error)
+    return res.status(500).send(error.message)
   }
 }
