@@ -56,3 +56,6 @@ export const getUrlById = async (req, res) => {
     return res.status(500).send(error);
   }
 };
+export const addVisit = async (req, res) => {
+  
+}
