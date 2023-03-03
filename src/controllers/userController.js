@@ -67,3 +67,6 @@ export const signIn = async (req, res) => {
     return res.sendStatus(500);
   }
 };
+export const getMe = async (req, res) => {
+  
+}

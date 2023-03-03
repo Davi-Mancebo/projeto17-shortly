@@ -2,20 +2,24 @@ import { nanoid } from "nanoid";
 import db from "../database/database.js";
 import { validateNewUrl } from "../middleware/schemas/newUrlSchema.js";
 
-export const shortUrl = async (req, res) => {
-  const { url, error } = validateNewUrl(req.body);
+export const shortUrl = async (req, res) => { 
+  const {id} = res.locals.auth;
+  console.log(id)
+  let { url, error } = validateNewUrl(req.body);
   try {
     validateNewUrl(url);
-    url = nanoid();
-    if (error) res.sendstatus(422);
+    if (error) return res.sendStatus(422);
 
-    await db.query("insert into links (shortUrl, url) values ($2, $3)", [
-      body.url,
+    url = nanoid();
+
+    await db.query('insert into links ("userId","shortUrl", url) values ($1, $2, $3)', [
+      id,
+      url,
       req.body?.url,
     ]);
     const insertData = await db.query(
-      "select * from links where shortUrl = $1",
-      [body.url]
+      'select * from links where "shortUrl" = $1',
+      [url]
     );
     const sendObject = {
       id: insertData.rows[0].id,
@@ -23,12 +27,16 @@ export const shortUrl = async (req, res) => {
     };
     return res.status(201).send(sendObject);
   } catch (error) {
+    console.log(error)
     return res.status(500).send(error.message);
   }
 };
 export const getUrls = async (req, res) => {
+  const returnObject = await db.query(
+    `SELECT u.id, u.name, l.COUNT(id) as "linksCount", SUM(visitCount) as "visitCount" from users u INNER JOIN links l where u.id = l.userId order by "linksCount" desc limit 10`
+    )
+
   return res.send(
-    await db.query("SELECT TOP 10 u.id, u.name, l.COUNT(id), SUM(visitCount) from users u where u.id = l.userId")
   );
 };
 export const getUrlById = async (req, res) => {
@@ -68,4 +76,7 @@ export const addVisit = async (req, res) => {
   }catch(error){
     return res.status(500).send(error.message)
   }
+}
+export const deleteById = async (req, res) => {
+
 }
