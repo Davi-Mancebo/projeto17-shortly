@@ -49,8 +49,7 @@ export const getUrlById = async (req, res) => {
       `,
       [id]
     );
-
-    if (!query.rows[0].id) {
+    if (query.rows[0] === 0 || query.rows[0] === undefined) {
       return res.sendStatus(404);
     }
     const sendObject = {
