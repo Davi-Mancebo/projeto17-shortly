@@ -67,13 +67,14 @@ export const getUrlById = async (req, res) => {
 export const addVisit = async (req, res) => {
   const {shortUrl} = req.params
   try{
-    const exist = await db.query("select id from links where shortUrl = $1", [shortUrl])
+    const exist = await db.query('select * from links where "shortUrl" = $1', [shortUrl])
     if(exist.rows.length === 0) return res.sendStatus(404)
 
-    const {rows} = await db.query("UPDATE links SET visits = visits + 1 where shortUrl = $1", [shortUrl])
-
-    return res.redirect(rows[0].url)
+    const {rows} = await db.query('UPDATE links SET visits = visits + 1 where id = $1', [exist.rows[0].id])
+    console.log(exist.rows[0].id)
+    return res.redirect(exist.rows[0].url)
   }catch(error){
+    console.log(error)
     return res.status(500).send(error.message)
   }
 }
