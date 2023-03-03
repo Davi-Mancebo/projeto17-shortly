@@ -56,7 +56,7 @@ export const signIn = async (req, res) => {
           userExist.rows[0].id,
           token,
         ]);
-        return res.status(201).send({
+        return res.status(200).send({
           token: token
         });
       }

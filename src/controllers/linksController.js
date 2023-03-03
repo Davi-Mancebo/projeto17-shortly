@@ -28,7 +28,7 @@ export const shortUrl = async (req, res) => {
 };
 export const getUrls = async (req, res) => {
   return res.send(
-    await db.query("SELECT TOP 10 u.id, u.name, l.COUNT(id), SUM(visitCount)")
+    await db.query("SELECT TOP 10 u.id, u.name, l.COUNT(id), SUM(visitCount) from users u where u.id = l.userId")
   );
 };
 export const getUrlById = async (req, res) => {
