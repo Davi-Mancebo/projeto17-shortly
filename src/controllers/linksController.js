@@ -36,11 +36,11 @@ export const getUrls = async (req, res) => {
     users.id,
     users.NAME,
     COUNT("shortUrl") AS "linksCount",
-    SUM("visits") AS "viewCount"
+    SUM("visits") AS "visitCount"
   FROM links
   JOIN users ON links."userId" = USERS.ID
   GROUP BY users.ID
-  ORDER BY "viewCount"
+  ORDER BY "visitCount"
   DESC
   LIMIT 10
 `
