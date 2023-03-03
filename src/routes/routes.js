@@ -12,7 +12,7 @@ router.post("/signin", user.signIn);
 router.post("/urls/shorten", link.shortUrl);
 
 router.get("/urls/:id", link.getUrlById);
-router.get("/urls/open/:shortUrl",);
+router.get("/urls/open/:shortUrl", link.addVisit);
 router.get("/users/me",);
 router.get("/ranking",);
 

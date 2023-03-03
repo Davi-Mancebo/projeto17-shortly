@@ -11,7 +11,7 @@ export const signUp = async (req, res) => {
     const { name, email, password, error} = await validateUserRegister(req.body);
     if (error) return res.sendStatus(422).send(error);
     const emailExist = await db.query(
-      USERS + " WHERE 'email' = $1",
+      "SELECT id FROM users WHERE 'email' = $1",
       [email]
     );
     const hashPassword = await bcrypt.hash(password, 8);
@@ -19,8 +19,8 @@ export const signUp = async (req, res) => {
     if(emailExist.rows.length > 0) return res.sendStatus(409)
 
     await db.query(
-      'INSERT INTO "users" (name, email, password) VALUES ($1, $2, $3)',
-      [name, email, hashPassword]
+      'INSERT INTO "users" (name, email, password, createdAt) VALUES ($1, $2, $3, $4)',
+      [name, email, hashPassword, Date.now()]
     )
     return res.sendStatus(201)
   } catch (error) {
@@ -41,6 +41,7 @@ export const signIn = async (req, res) => {
         password,
         userExist.rows[0].password
       );
+      return res.sendStatus(201)
       if(comparation){
         const loggedIn = await db.query(
             SESSIONS + " WHERE userId = $1",
@@ -53,8 +54,8 @@ export const signIn = async (req, res) => {
             )
         }
         await db.query(
-          'INSERT INTO sessions (userId, token) VALUES ($1, $2)',
-          [userExist.rows[0].id, token]
+          'INSERT INTO sessions (userId, token, createdAt) VALUES ($1, $2, $3)',
+          [userExist.rows[0].id, token, Date.now()]
           )
         return res.sendStatus(201).send(token)
       }
