@@ -1,7 +1,7 @@
 import Joi from "joi";
 import db, { SESSIONS, USERS } from "../database/database.js";
 import dayjs from "dayjs";
-import { validateUserRegister } from "../middleware/userRegisterSchema.js";
+import { validateUserRegister } from "../middleware/schemas/userRegisterSchema.js";
 import { validateUserLogin } from "../middleware/schemas/userLoginSchema.js";
 import bcrypt from "bcrypt";
 import {v4 as uuid} from "uuid";

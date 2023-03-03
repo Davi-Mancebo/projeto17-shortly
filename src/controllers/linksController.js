@@ -1,7 +1,6 @@
-import { object } from "joi";
 import { nanoid } from "nanoid";
-import db from "../database/database";
-import { validateNewUrl } from "../middleware/schemas/newUrlSchema";
+import db from "../database/database.js";
+import { validateNewUrl } from "../middleware/schemas/newUrlSchema.js";
 
 export const shortUrl = async (req, res) => {
   const { url, error } = validateNewUrl(req.body);
