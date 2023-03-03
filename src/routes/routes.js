@@ -13,7 +13,7 @@ router.post("/signin", user.signIn);
 
 router.get("/urls/:id", link.getUrlById);
 router.get("/urls/open/:shortUrl", link.addVisit);
-router.get("/ranking",);
+router.get("/ranking", link.getUrls);
 
 
 router.use(auth)

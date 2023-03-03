@@ -31,11 +31,22 @@ export const shortUrl = async (req, res) => {
   }
 };
 export const getUrls = async (req, res) => {
-  const returnObject = await db.query(
-    `SELECT u.id, u.name, l.COUNT(id) as "linksCount", SUM(visitCount) as "visitCount" from users u INNER JOIN links l where u.id = l.userId order by "linksCount" desc limit 10`
+  const returnObject = await db.query(` 
+  SELECT 
+    users.id,
+    users.NAME,
+    COUNT("shortUrl") AS "linksCount",
+    SUM("visits") AS "viewCount"
+  FROM links
+  JOIN users ON links."userId" = USERS.ID
+  GROUP BY users.ID
+  ORDER BY "viewCount"
+  DESC
+  LIMIT 10
+`
   );
 
-  return res.send();
+  return res.send(returnObject.rows);
 };
 export const getUrlById = async (req, res) => {
   const { id } = req.params;
